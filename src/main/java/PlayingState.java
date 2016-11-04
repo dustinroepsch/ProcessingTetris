@@ -6,19 +6,12 @@ import processing.core.PConstants;
  */
 public class PlayingState extends GameState {
     private int[][] gameBoard;
-    int[][] testShape = {
-            {0, 0, 1, 0},
-            {0, 1, 1, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 0}
-    };
-    private Tetronimo testTetronimo = new Tetronimo(pApplet.color(0, 255, 0), testShape, 9, 10);
-
 
     public PlayingState(TetrisGame pApplet) {
         super(pApplet);
         gameBoard = new int[TetrisGame.TETRIS_BOARD_HEIGHT][TetrisGame.TETRIS_BOARD_WIDTH];
         fillGameBoardWithZeros(gameBoard);
+        gameBoard[TetrisGame.TETRIS_BOARD_HEIGHT / 2][TetrisGame.TETRIS_BOARD_WIDTH / 2] = pApplet.color(0, 0, 255);
     }
 
     private void fillGameBoardWithZeros(int[][] gameBoard) {
@@ -33,9 +26,8 @@ public class PlayingState extends GameState {
     public void draw() {
         pApplet.clear();
         pApplet.pushMatrix();
-        pApplet.scale(TetrisGame.TETRIS_BOARD_WIDTH, TetrisGame.TETRIS_BOARD_HEIGHT);
+        pApplet.scale(pApplet.width / TetrisGame.TETRIS_BOARD_WIDTH, pApplet.height / TetrisGame.TETRIS_BOARD_HEIGHT);
         renderBoard();
-        testTetronimo.render(pApplet);
         pApplet.popMatrix();
     }
 
