@@ -4,10 +4,10 @@ import processing.core.PApplet;
  * Created by dusti on 11/4/2016.
  */
 public abstract class GameState {
-    protected PApplet pApplet;
+    protected TetrisGame pApplet;
     protected int[] statePixels;
 
-    public GameState(PApplet pApplet) {
+    public GameState(TetrisGame pApplet) {
         this.pApplet = pApplet;
         pApplet.loadPixels();
         statePixels = new int[pApplet.pixels.length];
