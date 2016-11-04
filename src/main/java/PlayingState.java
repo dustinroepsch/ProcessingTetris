@@ -9,14 +9,18 @@ public class PlayingState extends GameState {
 
     private int[][] gameBoard;
     private long lastFallTime;
-    IPiece iPiece;
+    Tetronimo currentPiece;
 
     public PlayingState(TetrisGame pApplet) {
         super(pApplet);
         gameBoard = new int[TetrisGame.TETRIS_BOARD_HEIGHT][TetrisGame.TETRIS_BOARD_WIDTH];
         fillGameBoardWithZeros(gameBoard);
-        iPiece = new IPiece(pApplet);
+        currentPiece = getRandomTetronimo();
         lastFallTime = System.currentTimeMillis();
+    }
+
+    private Tetronimo getRandomTetronimo() {
+        return new IPiece(pApplet);
     }
 
     private void fillGameBoardWithZeros(int[][] gameBoard) {
@@ -33,7 +37,7 @@ public class PlayingState extends GameState {
         pApplet.pushMatrix();
         pApplet.scale(pApplet.width / TetrisGame.TETRIS_BOARD_WIDTH, pApplet.height / TetrisGame.TETRIS_BOARD_HEIGHT);
         renderBoard();
-        iPiece.render();
+        currentPiece.render();
         pApplet.popMatrix();
     }
 
@@ -49,14 +53,24 @@ public class PlayingState extends GameState {
 
     public void tick() {
         if (System.currentTimeMillis() - lastFallTime >= MILLIS_PER_FALL) {
-            if (iPiece.canFall(gameBoard)) {
-                iPiece.fall();
+            if (currentPiece.canFall(gameBoard)) {
+                currentPiece.fall();
             }
             lastFallTime = System.currentTimeMillis();
         }
     }
 
     public void keyPressed() {
-
+        int keyCode = pApplet.keyCode;
+        if (keyCode == PConstants.LEFT) {
+            if (currentPiece.canMoveLeft(gameBoard)) {
+                currentPiece.moveLeft();
+            }
+        }
+        if (keyCode == PConstants.RIGHT) {
+            if (currentPiece.canMoveRight(gameBoard)) {
+                currentPiece.moveRight();
+            }
+        }
     }
 }

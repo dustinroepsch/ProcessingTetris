@@ -33,13 +33,28 @@ public abstract class Tetronimo {
     }
 
     public boolean canFall(int[][] board) {
+        return checkTheoreticalPosition(this.y + 1, this.x, board);
+    }
+
+    public void moveLeft() {
+        x--;
+    }
+
+    public void moveRight() {
+        x++;
+    }
+
+    private boolean checkTheoreticalPosition(int i, int j, int[][] board) {
         for (int row = 0; row < shape.length; row++) {
             for (int col = 0; col < shape[row].length; col++) {
                 if (shape[row][col] != 0) {
-                    if (row + y + 1 >= board.length) {
+                    if (row + i >= TetrisGame.TETRIS_BOARD_HEIGHT) {
                         return false;
                     }
-                    if (board[row + y + 1][col + x] != 0) {
+                    if (col + j < 0 || col + j >= TetrisGame.TETRIS_BOARD_WIDTH) {
+                        return false;
+                    }
+                    if (board[row + i][col + j] != 0) {
                         return false;
                     }
                 }
@@ -48,4 +63,11 @@ public abstract class Tetronimo {
         return true;
     }
 
+    boolean canMoveLeft(int[][] gameBoard) {
+        return checkTheoreticalPosition(y, x - 1, gameBoard);
+    }
+
+    public boolean canMoveRight(int[][] gameBoard) {
+        return checkTheoreticalPosition(y, x + 1, gameBoard);
+    }
 }
