@@ -5,7 +5,10 @@ import processing.core.PConstants;
  * Created by dusti on 11/4/2016.
  */
 public class PlayingState extends GameState {
+    public static int MILLIS_PER_FALL = 500;
+
     private int[][] gameBoard;
+    private long lastFallTime;
     IPiece iPiece;
 
     public PlayingState(TetrisGame pApplet) {
@@ -13,6 +16,7 @@ public class PlayingState extends GameState {
         gameBoard = new int[TetrisGame.TETRIS_BOARD_HEIGHT][TetrisGame.TETRIS_BOARD_WIDTH];
         fillGameBoardWithZeros(gameBoard);
         iPiece = new IPiece(pApplet);
+        lastFallTime = System.currentTimeMillis();
     }
 
     private void fillGameBoardWithZeros(int[][] gameBoard) {
@@ -44,7 +48,12 @@ public class PlayingState extends GameState {
     }
 
     public void tick() {
-
+        if (System.currentTimeMillis() - lastFallTime >= MILLIS_PER_FALL) {
+            if (iPiece.canFall(gameBoard)) {
+                iPiece.fall();
+            }
+            lastFallTime = System.currentTimeMillis();
+        }
     }
 
     public void keyPressed() {

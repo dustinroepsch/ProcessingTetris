@@ -27,4 +27,25 @@ public abstract class Tetronimo {
             }
         }
     }
+
+    public void fall() {
+        y++;
+    }
+
+    public boolean canFall(int[][] board) {
+        for (int row = 0; row < shape.length; row++) {
+            for (int col = 0; col < shape[row].length; col++) {
+                if (shape[row][col] != 0) {
+                    if (row + y + 1 >= board.length) {
+                        return false;
+                    }
+                    if (board[row + y + 1][col + x] != 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
 }
