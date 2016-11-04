@@ -56,6 +56,7 @@ public class PlayingState extends GameState {
         pApplet.clear();
         pApplet.pushMatrix();
         pApplet.scale(((float) pApplet.width) / TetrisGame.TETRIS_BOARD_WIDTH, ((float) pApplet.height) / TetrisGame.TETRIS_BOARD_HEIGHT);
+        pApplet.translate(.5f, .5f);
         renderBoard();
         currentPiece.render();
         pApplet.popMatrix();
@@ -76,10 +77,32 @@ public class PlayingState extends GameState {
             if (currentPiece.canFall(gameBoard)) {
                 currentPiece.fall();
             } else {
+                if (currentPiece.y == 0) {
+                    pApplet.currentState = new LostState(pApplet);
+                }
                 writePieceToBoard(currentPiece, gameBoard);
+                reduceBoard(gameBoard);
                 currentPiece = getRandomTetronimo();
             }
             lastFallTime = System.currentTimeMillis();
+        }
+    }
+
+    private void reduceBoard(int[][] gameBoard) {
+        for (int i = 0; i < TetrisGame.TETRIS_BOARD_HEIGHT; i++) {
+            boolean completeRow = true;
+            for (int j = 0; j < TetrisGame.TETRIS_BOARD_WIDTH; j++) {
+                if (gameBoard[i][j] == 0) {
+                    completeRow = false;
+                }
+            }
+            if (completeRow) {
+                for (int row = i; row > 0; row--) {
+                    for (int col = 0; col < TetrisGame.TETRIS_BOARD_WIDTH; col++) {
+                        gameBoard[row][col] = gameBoard[row - 1][col];
+                    }
+                }
+            }
         }
     }
 
