@@ -5,7 +5,7 @@ import processing.core.PConstants;
  * Created by dusti on 11/4/2016.
  */
 public class PlayingState extends GameState {
-    public static int MILLIS_PER_FALL = 500;
+    public static int MILLIS_PER_FALL = 150;
 
     private int[][] gameBoard;
     private long lastFallTime;
@@ -20,7 +20,19 @@ public class PlayingState extends GameState {
     }
 
     private Tetronimo getRandomTetronimo() {
-        return new IPiece(pApplet);
+        int selection = (int) (Math.random() * 3);
+        switch (selection) {
+            case 0:
+                return new IPiece(pApplet);
+
+            case 1:
+                return new OPiece(pApplet);
+
+            case 2:
+                return new TPiece(pApplet);
+
+        }
+        return null;
     }
 
     private void fillGameBoardWithZeros(int[][] gameBoard) {
@@ -55,13 +67,27 @@ public class PlayingState extends GameState {
         if (System.currentTimeMillis() - lastFallTime >= MILLIS_PER_FALL) {
             if (currentPiece.canFall(gameBoard)) {
                 currentPiece.fall();
+            } else {
+                writePieceToBoard(currentPiece, gameBoard);
+                currentPiece = getRandomTetronimo();
             }
             lastFallTime = System.currentTimeMillis();
         }
     }
 
+    private void writePieceToBoard(Tetronimo currentPiece, int[][] gameBoard) {
+        for (int row = 0; row < currentPiece.shape.length; row++) {
+            for (int col = 0; col < currentPiece.shape[row].length; col++) {
+                if (currentPiece.shape[row][col] != 0) {
+                    gameBoard[currentPiece.y + row][currentPiece.x + col] = currentPiece.color;
+                }
+            }
+        }
+    }
+
     public void keyPressed() {
         int keyCode = pApplet.keyCode;
+        int key = pApplet.key;
         if (keyCode == PConstants.LEFT) {
             if (currentPiece.canMoveLeft(gameBoard)) {
                 currentPiece.moveLeft();
@@ -70,6 +96,11 @@ public class PlayingState extends GameState {
         if (keyCode == PConstants.RIGHT) {
             if (currentPiece.canMoveRight(gameBoard)) {
                 currentPiece.moveRight();
+            }
+        }
+        if (key == 'j') {
+            if (currentPiece.canRotateLeft(gameBoard)) {
+                currentPiece.rotateLeft();
             }
         }
     }

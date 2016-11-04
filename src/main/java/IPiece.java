@@ -9,10 +9,11 @@ public class IPiece extends Tetronimo {
 
     public static int[][] getShape() {
         int[][] shape = {
-                {0, 0, 1, 0},
-                {0, 0, 1, 0},
-                {0, 0, 1, 0},
-                {0, 0, 1, 0}
+                {0, 0, 1, 0, 0},
+                {0, 0, 1, 0, 0},
+                {0, 0, 1, 0, 0},
+                {0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 0}
         };
         return shape;
     }
