@@ -6,12 +6,13 @@ import processing.core.PConstants;
  */
 public class PlayingState extends GameState {
     private int[][] gameBoard;
+    IPiece iPiece;
 
     public PlayingState(TetrisGame pApplet) {
         super(pApplet);
         gameBoard = new int[TetrisGame.TETRIS_BOARD_HEIGHT][TetrisGame.TETRIS_BOARD_WIDTH];
         fillGameBoardWithZeros(gameBoard);
-        gameBoard[TetrisGame.TETRIS_BOARD_HEIGHT / 2][TetrisGame.TETRIS_BOARD_WIDTH / 2] = pApplet.color(0, 0, 255);
+        iPiece = new IPiece(pApplet);
     }
 
     private void fillGameBoardWithZeros(int[][] gameBoard) {
@@ -28,6 +29,7 @@ public class PlayingState extends GameState {
         pApplet.pushMatrix();
         pApplet.scale(pApplet.width / TetrisGame.TETRIS_BOARD_WIDTH, pApplet.height / TetrisGame.TETRIS_BOARD_HEIGHT);
         renderBoard();
+        iPiece.render();
         pApplet.popMatrix();
     }
 
