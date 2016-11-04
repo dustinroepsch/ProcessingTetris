@@ -20,7 +20,7 @@ public class PlayingState extends GameState {
     }
 
     private Tetronimo getRandomTetronimo() {
-        int selection = (int) (Math.random() * 3);
+        int selection = (int) (Math.random() * 7);
         switch (selection) {
             case 0:
                 return new IPiece(pApplet);
@@ -30,6 +30,14 @@ public class PlayingState extends GameState {
 
             case 2:
                 return new TPiece(pApplet);
+            case 3:
+                return new ZPiece(pApplet);
+            case 4:
+                return new SPiece(pApplet);
+            case 5:
+                return new JPiece(pApplet);
+            case 6:
+                return new LPiece(pApplet);
 
         }
         return null;
@@ -47,7 +55,7 @@ public class PlayingState extends GameState {
     public void draw() {
         pApplet.clear();
         pApplet.pushMatrix();
-        pApplet.scale(pApplet.width / TetrisGame.TETRIS_BOARD_WIDTH, pApplet.height / TetrisGame.TETRIS_BOARD_HEIGHT);
+        pApplet.scale(((float) pApplet.width) / TetrisGame.TETRIS_BOARD_WIDTH, ((float) pApplet.height) / TetrisGame.TETRIS_BOARD_HEIGHT);
         renderBoard();
         currentPiece.render();
         pApplet.popMatrix();
