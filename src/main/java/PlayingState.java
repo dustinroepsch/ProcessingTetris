@@ -6,6 +6,13 @@ import processing.core.PConstants;
  */
 public class PlayingState extends GameState {
     private int[][] gameBoard;
+    int[][] testShape = {
+            {0, 0, 1, 0},
+            {0, 1, 1, 0},
+            {0, 0, 1, 0},
+            {0, 0, 0, 0}
+    };
+    private Tetronimo testTetronimo = new Tetronimo(pApplet.color(0, 255, 0), testShape, 9, 10);
 
 
     public PlayingState(TetrisGame pApplet) {
@@ -28,6 +35,7 @@ public class PlayingState extends GameState {
         pApplet.pushMatrix();
         pApplet.scale(TetrisGame.TETRIS_BOARD_WIDTH, TetrisGame.TETRIS_BOARD_HEIGHT);
         renderBoard();
+        testTetronimo.render(pApplet);
         pApplet.popMatrix();
     }
 
@@ -42,9 +50,7 @@ public class PlayingState extends GameState {
     }
 
     public void tick() {
-        for (int i = 0; i < statePixels.length; i++) {
-            statePixels[i] = pApplet.color((float) (Math.random() * 255));
-        }
+
     }
 
     public void keyPressed() {
