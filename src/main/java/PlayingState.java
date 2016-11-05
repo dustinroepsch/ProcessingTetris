@@ -5,7 +5,7 @@ import processing.core.PConstants;
  * Created by dusti on 11/4/2016.
  */
 public class PlayingState extends GameState {
-    public static int MILLIS_PER_FALL = 150;
+    public static int MILLIS_PER_FALL = 500;
 
     private int[][] gameBoard;
     private long lastFallTime;
@@ -129,9 +129,14 @@ public class PlayingState extends GameState {
                 currentPiece.moveRight();
             }
         }
-        if (key == 'j') {
+        if (keyCode == PConstants.UP) {
             if (currentPiece.canRotateLeft(gameBoard)) {
                 currentPiece.rotateLeft();
+            }
+        }
+        if (keyCode == PConstants.DOWN) {
+            while (currentPiece.canFall(gameBoard)) {
+                currentPiece.fall();
             }
         }
     }
